@@ -4,17 +4,23 @@
  */
 package acaipizzariapdv.caixa;
 
-import acaipizzariapdv.caixa.CaixaModel;
+//import acaipizzariapdv.caixa.CaixaModel;
 import javax.swing.JOptionPane;
 import java.util.Date;
-import java.text.NumberFormat;
-import java.util.Locale;
+//import java.sql.Timestamp;
+//import java.text.NumberFormat;
+//import java.util.Locale;
+import java.util.Calendar;
 
 /**
  *
  * @author Usuario
  */
 public class CaixaJPanel extends javax.swing.JPanel {
+    
+    public Date date;
+    public Calendar calendar = Calendar.getInstance();
+    public Date dataHora;
 
     public boolean caixaAberto = false;
     public String SaldoInicial;
@@ -448,9 +454,10 @@ public class CaixaJPanel extends javax.swing.JPanel {
                 this.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 153, 0)));
                 caixaAberto = true;
 
+                //dataHora = calendar.getTime();
                 
                 caixa.setAberto(caixaAberto);
-                caixa.setAbertoAs(new Date());
+                caixa.setAbertoAs(calendar.getTime());
                 caixa.setValor_inicial(Double.parseDouble(jTextFieldValorInicial.getText().replaceAll(",", ".")));
 
                 CaixaController caixaController = new CaixaController();
@@ -478,14 +485,15 @@ public class CaixaJPanel extends javax.swing.JPanel {
         caixaAberto = false;
         
 
-        caixa.setTotal_entradas_cartao(Double.parseDouble(jLabelEntradasCartaoValor.getText()));
-        caixa.setTotal_entradas_pix(Double.parseDouble(jLabelEntradasPixValor.getText()));
-        caixa.setTotal_entradas_dinheiro(Double.parseDouble(jLabelEntradasDinheiroValor.getText()));
-        caixa.setTotal_entradas(Double.parseDouble(jLabelTotalEntradasValor.getText()));
-        caixa.setTotal_saidas(Double.parseDouble(jLabelTotalSaidasValor.getText()));
-        caixa.setSaldo_final_dinheiro(Double.parseDouble(jLabelSaldoDinheiroValor.getText()));
-        caixa.setSaldo_final(Double.parseDouble(jLabelSaldoTotalValor.getText()));
+        caixa.setTotal_entradas_cartao(Double.parseDouble(jLabelEntradasCartaoValor.getText().replaceAll(",", ".")));
+        caixa.setTotal_entradas_pix(Double.parseDouble(jLabelEntradasPixValor.getText().replaceAll(",", ".")));
+        caixa.setTotal_entradas_dinheiro(Double.parseDouble(jLabelEntradasDinheiroValor.getText().replaceAll(",", ".")));
+        caixa.setTotal_entradas(Double.parseDouble(jLabelTotalEntradasValor.getText().replaceAll(",", ".")));
+        caixa.setTotal_saidas(Double.parseDouble(jLabelTotalSaidasValor.getText().replaceAll(",", ".")));
+        caixa.setSaldo_final_dinheiro(Double.parseDouble(jLabelSaldoDinheiroValor.getText().replaceAll(",", ".")));
+        caixa.setSaldo_final(Double.parseDouble(jLabelSaldoTotalValor.getText().replaceAll(",", ".")));
         caixa.setAberto(caixaAberto);
+        caixa.setFechadoAs(calendar.getTime());
 
         CaixaController caixaControler = new CaixaController();
         caixaControler.salvarMovimentacoesCaixa(caixa); 

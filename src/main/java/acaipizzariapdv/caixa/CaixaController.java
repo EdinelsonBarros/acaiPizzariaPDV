@@ -7,7 +7,7 @@ package acaipizzariapdv.caixa;
 import acaipizzariapdv.util.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class CaixaController {
             statement = connection.prepareStatement(sql, 1);
 
             statement.setDouble(1, caixa.getValor_inicial());
-            statement.setDate(2, new Date(caixa.getAbertoAs().getTime()));
+            statement.setTimestamp(2, new Timestamp(caixa.getAbertoAs().getTime()));
             statement.setBoolean(3, caixa.isAberto());
             statement.execute();
             ResultSet resultSet = statement.getGeneratedKeys();
@@ -85,17 +85,17 @@ public class CaixaController {
     }
 
     public void salvarMovimentacoesCaixa(CaixaModel caixa) {
-        String sql = "UPDATE caixas SET"
-                + "total_entradas_dinheiro = ?,"
-                + "total_entradas_pix = ?,"
-                + "total_entradas_cartao = ?,"
-                + "total_saidas = ?,"
-                + "saldo_final_dinheiro = ?,"
-                + "saldo_final = ?,"
-                + "esta_aberto = ?,"
-                + "fechamento_data_hora = ?,"
-                + "total_entradas = ?"
-                + "WHERE id_caixa = ?";
+        String sql = "UPDATE caixas SET "
+                + "total_entradas_dinheiro = ?, "
+                + "total_entradas_pix = ?, "
+                + "total_entradas_cartao = ?, "
+                + "total_saidas = ?, "
+                + "saldo_final_dinheiro = ?, "
+                + "saldo_final = ?, "
+                + "esta_aberto = ?, "
+                + "fechamento_data_hora = ?, "
+                + "total_entradas = ? "
+                + "WHERE id_caixa = ? ";
         Connection connection = null;
         PreparedStatement statement = null;
 
@@ -110,9 +110,10 @@ public class CaixaController {
             statement.setDouble(5, caixa.getSaldo_final_dinheiro());
             statement.setDouble(6, caixa.getSaldo_final());
             statement.setBoolean(7, caixa.isAberto());
-            statement.setDate(8, new Date(caixa.getFechadoAs().getTime()));
+            statement.setTimestamp(8, new Timestamp(caixa.getFechadoAs().getTime()));
             statement.setDouble(9, caixa.getTotal_entradas());
             statement.setInt(10, caixa.getId_caixa());
+            statement.execute();
         } catch (Exception e) {
             throw new RuntimeException("Erro ao atualizar o caixa.", e);
         } finally {
