@@ -138,6 +138,11 @@ public class CaixaModel {
     public void setFechadoAs(Date fechadoAs) {
         this.fechadoAs = fechadoAs;
     }
+
+    @Override
+    public String toString() {
+        return "CaixaModel{" + "id_caixa=" + id_caixa + ", valor_inicial=" + valor_inicial + ", abertoAs=" + abertoAs + ", total_entradas_dinheiro=" + total_entradas_dinheiro + ", total_entradas_cartao=" + total_entradas_cartao + ", total_entradas_pix=" + total_entradas_pix + ", total_entradas=" + total_entradas + ", total_saidas=" + total_saidas + ", saldo_final_dinheiro=" + saldo_final_dinheiro + ", saldo_final=" + saldo_final + ", aberto=" + aberto + ", fechadoAs=" + fechadoAs + '}';
+    }
     
     
     

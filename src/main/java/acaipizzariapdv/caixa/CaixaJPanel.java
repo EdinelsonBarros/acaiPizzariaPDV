@@ -5,19 +5,24 @@
 package acaipizzariapdv.caixa;
 
 //import acaipizzariapdv.caixa.CaixaModel;
+import acaipizzariapdv.caixa.saidasEntradas.JFrameSaidasEntradas;
 import javax.swing.JOptionPane;
 import java.util.Date;
-//import java.sql.Timestamp;
-//import java.text.NumberFormat;
-//import java.util.Locale;
 import java.util.Calendar;
+
+import acaipizzariapdv.caixa.saidasEntradas.TableModelEntradasSaidas;
+import acaipizzariapdv.caixa.saidasEntradas.SaidasEntradasController;
+import acaipizzariapdv.caixa.saidasEntradas.SaidasEntradasModel;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Usuario
  */
 public class CaixaJPanel extends javax.swing.JPanel {
-    
+
+    //Dados necessários para registrar hora da abertura e fechamento do caixa
     public Date date;
     public Calendar calendar = Calendar.getInstance();
     public Date dataHora;
@@ -25,10 +30,15 @@ public class CaixaJPanel extends javax.swing.JPanel {
     public boolean caixaAberto = false;
     public String SaldoInicial;
     CaixaModel caixa = new CaixaModel();
+    
+    TableModelEntradasSaidas tableModelEntradasSaidas;
+    List<SaidasEntradasModel> listaSaidasEntradas = new ArrayList();
+    SaidasEntradasController saidasEntradasController = new SaidasEntradasController();
 
     public CaixaJPanel() {
         initComponents();
-        
+        myInit();
+
     }
 
     /**
@@ -71,10 +81,10 @@ public class CaixaJPanel extends javax.swing.JPanel {
         jTable2 = new javax.swing.JTable();
         jLabel21 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jButtonAdicionarSaidaEntrada = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
+        jTableSaidasEntradas = new javax.swing.JTable();
+        jButtonAtualizar = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 51)));
         setMinimumSize(new java.awt.Dimension(800, 450));
@@ -239,7 +249,7 @@ public class CaixaJPanel extends javax.swing.JPanel {
                                 .addComponent(jLabelStatusValor, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCaixaLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                                 .addComponent(jTextFieldValorInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addComponent(jButtonAbrirFecharCaixa)
@@ -324,7 +334,7 @@ public class CaixaJPanel extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(jTable2);
 
-        jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(51, 153, 0));
         jLabel21.setText("Pagamentos");
         jLabel21.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -335,12 +345,10 @@ public class CaixaJPanel extends javax.swing.JPanel {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(1, 1, 1)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(124, Short.MAX_VALUE)
+                .addContainerGap(82, Short.MAX_VALUE)
                 .addComponent(jLabel21)
-                .addGap(0, 136, Short.MAX_VALUE))
+                .addGap(0, 93, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -350,14 +358,23 @@ public class CaixaJPanel extends javax.swing.JPanel {
                 .addComponent(jScrollPane1))
         );
 
-        jPanel2.setMinimumSize(new java.awt.Dimension(230, 76));
+        jPanel2.setMinimumSize(new java.awt.Dimension(300, 76));
+        jPanel2.setPreferredSize(new java.awt.Dimension(300, 70));
 
-        jButton1.setBackground(new java.awt.Color(255, 252, 251));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/imagens/icones/addSaida.png"))); // NOI18N
-        jButton1.setText("Adicionar Saida");
-        jButton1.setIconTextGap(8);
+        jButtonAdicionarSaidaEntrada.setBackground(new java.awt.Color(255, 252, 251));
+        jButtonAdicionarSaidaEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/imagens/icones/addSaida.png"))); // NOI18N
+        jButtonAdicionarSaidaEntrada.setText("Saida / Entrada");
+        jButtonAdicionarSaidaEntrada.setIconTextGap(8);
+        jButtonAdicionarSaidaEntrada.setPreferredSize(new java.awt.Dimension(162, 28));
+        jButtonAdicionarSaidaEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAdicionarSaidaEntradaActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(300, 402));
+
+        jTableSaidasEntradas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -365,18 +382,16 @@ public class CaixaJPanel extends javax.swing.JPanel {
                 {null, null, null}
             },
             new String [] {
-                "Categoria", "Valor", "Obervação"
+                "Valor", "Categoria", "Solicitante"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jTableSaidasEntradas.setShowGrid(true);
+        jScrollPane2.setViewportView(jTableSaidasEntradas);
 
-        jButton2.setBackground(new java.awt.Color(255, 252, 251));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/imagens/icones/addEntrada.png"))); // NOI18N
-        jButton2.setText("Adicionar Entrada");
-        jButton2.setIconTextGap(8);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAtualizar.setText("Atualizar");
+        jButtonAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonAtualizarActionPerformed(evt);
             }
         });
 
@@ -385,22 +400,24 @@ public class CaixaJPanel extends javax.swing.JPanel {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonAdicionarSaidaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonAtualizar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAdicionarSaidaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonAtualizar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -408,23 +425,27 @@ public class CaixaJPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(1, 1, 1)
                 .addComponent(jPanelCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanelCaixa, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void myInit() {
+        tableModelEntradasSaidas = new TableModelEntradasSaidas();
+        jTableSaidasEntradas.setModel(tableModelEntradasSaidas);
+        System.out.println(tableModelEntradasSaidas.getRowCount());
+
+    }
+
 
     private void jButtonAbrirFecharCaixaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAbrirFecharCaixaMouseClicked
         // TODO add your handling code here:
@@ -435,6 +456,34 @@ public class CaixaJPanel extends javax.swing.JPanel {
             fecharCaixa();
         }
     }//GEN-LAST:event_jButtonAbrirFecharCaixaMouseClicked
+
+    private void jButtonAdicionarSaidaEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarSaidaEntradaActionPerformed
+        // TODO add your handling code here:
+        JFrameSaidasEntradas registroSaidasEntradas = new JFrameSaidasEntradas(caixa.getId_caixa());
+        registroSaidasEntradas.setVisible(true);
+
+
+    }//GEN-LAST:event_jButtonAdicionarSaidaEntradaActionPerformed
+
+    private void jButtonAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarActionPerformed
+        // TODO add your handling code here:
+        
+        
+            listaSaidasEntradas = saidasEntradasController.consultarEntradasSaidas();
+            tableModelEntradasSaidas.setSaidasEntradas(listaSaidasEntradas);
+            tableModelEntradasSaidas.fireTableDataChanged();
+            
+            System.out.println(tableModelEntradasSaidas.getRowCount());
+            System.out.println(tableModelEntradasSaidas.getColumnName(0));
+            System.out.println(tableModelEntradasSaidas.getValueAt(1,0));
+            System.out.println("table: "+jTableSaidasEntradas.getValueAt(1,0));
+           // jTableSaidasEntradas.setModel(tableModelEntradasSaidas);
+            
+         /*else {
+            JOptionPane.showMessageDialog(jPanel2, "Caixa fechado");
+        } */
+
+    }//GEN-LAST:event_jButtonAtualizarActionPerformed
 
     private void abrirCaixa() {
         try {
@@ -455,14 +504,13 @@ public class CaixaJPanel extends javax.swing.JPanel {
                 caixaAberto = true;
 
                 //dataHora = calendar.getTime();
-                
                 caixa.setAberto(caixaAberto);
                 caixa.setAbertoAs(calendar.getTime());
                 caixa.setValor_inicial(Double.parseDouble(jTextFieldValorInicial.getText().replaceAll(",", ".")));
 
                 CaixaController caixaController = new CaixaController();
                 caixa.setId_caixa(caixaController.salvarCaixa(caixa));
-                System.out.println("O id Cadastrado foi: "+ caixa.getId_caixa());
+                System.out.println("O id Cadastrado foi: " + caixa.getId_caixa());
                 jTextFieldValorInicial.setText("");
             } else {
                 JOptionPane.showMessageDialog(jPanelCaixa, "Não foi possível abrir o caixa. Valor do fundo de troco vazio ou inválido.");
@@ -483,7 +531,6 @@ public class CaixaJPanel extends javax.swing.JPanel {
 
         jTextFieldValorInicial.setEditable(true);
         caixaAberto = false;
-        
 
         caixa.setTotal_entradas_cartao(Double.parseDouble(jLabelEntradasCartaoValor.getText().replaceAll(",", ".")));
         caixa.setTotal_entradas_pix(Double.parseDouble(jLabelEntradasPixValor.getText().replaceAll(",", ".")));
@@ -496,15 +543,15 @@ public class CaixaJPanel extends javax.swing.JPanel {
         caixa.setFechadoAs(calendar.getTime());
 
         CaixaController caixaControler = new CaixaController();
-        caixaControler.salvarMovimentacoesCaixa(caixa); 
+        caixaControler.salvarMovimentacoesCaixa(caixa);
 
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonAbrirFecharCaixa;
+    private javax.swing.JButton jButtonAdicionarSaidaEntrada;
+    private javax.swing.JButton jButtonAtualizar;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
@@ -534,8 +581,8 @@ public class CaixaJPanel extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTableSaidasEntradas;
     private javax.swing.JTextField jTextFieldValorInicial;
     // End of variables declaration//GEN-END:variables
 }

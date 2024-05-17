@@ -26,18 +26,12 @@ public class TableModelProdutos extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int rowIndex, int columnIndex){
-        switch (columnIndex) {
-            case 0:
-                return produtosModel.get(rowIndex).getNome();
-
-            case 1:
-                return produtosModel.get(rowIndex).getPreco();
-            case 2:
-                return produtosModel.get(rowIndex).getMedida();
-            default:
-                return "Dados não encontrados.";
-
-        }
+        return switch (columnIndex) {
+            case 0 -> produtosModel.get(rowIndex).getNome();
+            case 1 -> produtosModel.get(rowIndex).getPreco();
+            case 2 -> produtosModel.get(rowIndex).getMedida();
+            default -> "Dados não encontrados.";
+        };
     }
     
     //métodos não obrigatórios
@@ -45,10 +39,13 @@ public class TableModelProdutos extends AbstractTableModel {
     @Override
     public String getColumnName(int columnIndex){
         return columns[columnIndex];
+    
     }
     
+    
+    @Override
     public boolean isCellEditable(int rowIndex, int columnIndex){
-        return false; // lembrar de ver como fica
+        return false; 
     }
     
     @Override

@@ -33,7 +33,7 @@ public class CaixaController {
 
             while(resultSet.next()){
             id_caixa = resultSet.getInt(1);
-            return id_caixa;
+            //return id_caixa;
         }
             
         } catch (Exception e) {
@@ -79,6 +79,8 @@ public class CaixaController {
 
         } catch (Exception e) {
             throw new RuntimeException("Erro ao consultar caixas.", e);
+        } finally {
+            ConnectionFactory.closeConnection(connection, statement, resultSet);
         }
 
         return historicoCaixas;

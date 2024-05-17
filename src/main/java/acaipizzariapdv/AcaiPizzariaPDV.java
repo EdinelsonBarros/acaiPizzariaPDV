@@ -4,12 +4,12 @@
 
 package acaipizzariapdv;
 
-import acaipizzariapdv.produtos.GestaoProdutos;
+import acaipizzariapdv.caixa.saidasEntradas.SaidasEntradasController;
 
 public class AcaiPizzariaPDV {
 
     public static void main(String[] args) {
-       GestaoProdutos telaProdutos = new GestaoProdutos();
-       telaProdutos.setVisible(true);
+       SaidasEntradasController saidasEntradas = new SaidasEntradasController();
+       
     }
 }
