@@ -1,0 +1,39 @@
+SPEEDPDV
+Dados de conexão com banco de dados
+hostname: 127.0.0.1
+pot: 3306
+user: adminEdinelson
+password: @#edi16022024
+
+Cores
+Background D5C1D6
+Barra de ferramentas 7B5776
+Destaque 7A477D
+Cancelar A14D68
+Confirmação 5B36A9
+
+Produtos
+id
+codigo_personalizado_produto
+nome_produto
+preco_produto_venda
+preco_custo
+unidade_medida UN KG L F
+url_imagem
+tamanho
+
+jFrame(tela principal)
+->jTabbedPanel
+  ->Principal(jPanel Contênier)
+    ->Caixa(jPanel Content)
+	->SaidasEntradas
+	->
+    ->Historico Caixa...
+  ->Produtos
+    ->Produtos
+    ->Adicionais
+
+
+
+
+
